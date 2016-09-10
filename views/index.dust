@@ -1,9 +1,0 @@
-{#collection}
-  {name}
-{/collection}
-
-<hr>
-
-<pre>
-  {@contextDump/}
-</pre>

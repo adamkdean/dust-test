@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dust test</title>
+</head>
+<body>
+  <a href="/pojo">POJO</a> | <a href="/context">Context</a>
+
+  {#people}
+  <li>{name} aged {age}</li>
+  {/people}
+</body>
+</html>
