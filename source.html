@@ -1,0 +1,46 @@
+
+<hr><pre>{
+  "settings": {
+    "x-powered-by": true,
+    "etag": "weak",
+    "etag fn": "function wetag(body, encoding) {var buf = !Buffer.isBuffer(body)? new Buffer(body, encoding): body;return etag(buf, {weak: true});}",
+    "env": "development",
+    "query parser": "extended",
+    "query parser fn": "function parseExtendedQueryString(str) {return qs.parse(str, {allowPrototypes: true});}",
+    "subdomain offset": 2,
+    "trust proxy": false,
+    "trust proxy fn": "function trustNone() {return false;}",
+    "view": "function View(name, options) {var opts = options || {};this.defaultEngine = opts.defaultEngine;this.ext = extname(name);this.name = name;this.root = opts.root;if (!this.ext && !this.defaultEngine) {throw new Error('No default engine was specified and no extension was provided.');}var fileName = name;if (!this.ext) {// get extension from default engine namethis.ext = this.defaultEngine[0] !== '.'? '.' + this.defaultEngine: this.defaultEngine;fileName += this.ext;}if (!opts.engines[this.ext]) {// load engineopts.engines[this.ext] = require(this.ext.substr(1)).__express;}// store loaded enginethis.engine = opts.engines[this.ext];// lookup paththis.path = this.lookup(fileName);}",
+    "views": "/Users/aspire/GitHub/adamkdean/dust-test/views",
+    "jsonp callback name": "callback",
+    "view engine": "dust"
+  },
+  "stack": {
+    "isObject": true,
+    "head": {
+      "collection": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "global": {
+    "globalTest": true
+  },
+  "_locals": {},
+  "get": "function (path, cur) {if (typeof path === 'string') {if (path[0] === '.') {cur = true;path = path.substr(1);}path = path.split('.');}return this._get(cur, path);}",
+  "_get": "function (cur, down) {var ctx = this.stack || {}, i = 1, value, first, len, ctxThis, fn;first = down[0];len = down.length;if (cur && len === 0) {ctxThis = ctx;ctx = ctx.head;} else {if (!cur) {// Search up the stack for the first valuewhile (ctx) {if (ctx.isObject) {ctxThis = ctx.head;value = ctx.head[first];if (value !== undefined) {break;}}ctx = ctx.tail;}// Try looking in the global context if we haven't found anything yetif (value !== undefined) {ctx = value;} else {ctx = this.global && this.global[first];}} else if (ctx) {// if scope is limited by a leading dot, don't search up the treeif(ctx.head) {ctx = ctx.head[first];} else {// context's head is empty, value we are searching for is not definedctx = undefined;}}while (ctx && i \u003c len) {if (dust.isThenable(ctx)) {// Bail early by returning a Thenable for the remainder of the search treereturn ctx.then(getWithResolvedData(this, cur, down.slice(i)));}ctxThis = ctx;ctx = ctx[down[i]];i++;}}if (typeof ctx === 'function') {fn = function() {try {return ctx.apply(ctxThis, arguments);} catch (err) {dust.log(err, ERROR);throw err;}};fn.__dustBody = !!ctx.__dustBody;return fn;} else {if (ctx === undefined) {dust.log('Cannot find reference `{' + down.join('.') + '}` in template `' + this.getTemplateName() + '`', INFO);}return ctx;}}",
+  "getPath": "function (cur, down) {return this._get(cur, down);}",
+  "push": "function (head, idx, len) {if(head === undefined) {dust.log(\"Not pushing an undefined variable onto the context\", INFO);return this;}return this.rebase(new Stack(head, this.stack, idx, len));}",
+  "pop": "function () {var head = this.current();this.stack = this.stack && this.stack.tail;return head;}",
+  "rebase": "function (head) {return new Context(head, this.global, this.options, this.blocks, this.getTemplateName());}",
+  "clone": "function () {var context = this.rebase();context.stack = this.stack;return context;}",
+  "current": "function () {return this.stack && this.stack.head;}",
+  "getBlock": "function (key) {var blocks, len, fn;if (typeof key === 'function') {key = key(new Chunk(), this).data.join('');}blocks = this.blocks;if (!blocks) {dust.log('No blocks for context `' + key + '` in template `' + this.getTemplateName() + '`', DEBUG);return false;}len = blocks.length;while (len--) {fn = blocks[len][key];if (fn) {return fn;}}dust.log('Malformed template `' + this.getTemplateName() + '` was missing one or more blocks.');return false;}",
+  "shiftBlocks": "function (locals) {var blocks = this.blocks, newBlocks;if (locals) {if (!blocks) {newBlocks = [locals];} else {newBlocks = blocks.concat([locals]);}return new Context(this.stack, this.global, this.options, newBlocks, this.getTemplateName());}return this;}",
+  "resolve": "function (body) {var chunk;if(typeof body !== 'function') {return body;}chunk = new Chunk().render(body, this);if(chunk instanceof Chunk) {return chunk.data.join(''); // ie7 perf}return chunk;}",
+  "getTemplateName": "function () {return this.templateName;}",
+  "cache": false,
+  "filename": "/Users/aspire/GitHub/adamkdean/dust-test/views/index.dust"
+}</pre>
