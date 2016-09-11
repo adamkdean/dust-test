@@ -1,9 +1,7 @@
+const fs = require('fs')
 const path = require('path')
-const hoffman = require('hoffman')
 const express = require('express')
-const request = require('request')
-const duster = require('duster')
-const dust = duster.dust
+const dust = require('dustjs-linkedin')
 
 const app = express()
 const base = dust.context({
@@ -15,30 +13,39 @@ const base = dust.context({
   ]
 })
 
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'dust')
-app.engine('dust', hoffman.__express())
+dust.onLoad = function(template, callback) {
+  const file = path.resolve('/', template + '.dust')
+  const view = path.join('./views', file)
+  fs.readFile(view, { encoding: 'utf8' }, callback)
+}
+
+app.render = function (view, context, res) {
+  dust.render(view, context, (err, str) => {
+    if (err) throw err
+    res.end(str)
+  })
+}
 
 app.get('/', function (req, res) {
-  res.render('people', {})
+  app.render('people', {}, res)
 })
 
 app.get('/pojo', function (req, res) {
-  res.render('people', {
+  app.render('people', {
     age: 26,
     people: [
       { name: 'exampleA' },
       { name: 'exampleB' }
     ]
-  })
+  }, res)
 })
 
 app.get('/context', function (req, res) {
-  res.render('people', base.push({
+  app.render('people', base.push({
     people: [
       { name: 'adam' }
     ]
-  }))
+  }), res)
 })
 
 app.listen(4000, function () {
