@@ -3,6 +3,8 @@ const path = require('path')
 const express = require('express')
 const dust = require('dustjs-linkedin')
 
+require('dustjs-helpers')
+
 const app = express()
 const base = dust.context({
   isBase: true,

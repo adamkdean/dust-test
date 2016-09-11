@@ -10,5 +10,8 @@
   {#people}
   <li>{name} aged {age}</li>
   {/people}
+
+  <hr>
+  <p>{@contextDump /}</p>
 </body>
 </html>
